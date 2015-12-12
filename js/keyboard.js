@@ -18,7 +18,7 @@ Input.UP = '&'
 Input.keys = function(chr) {
     var key = Input.keyboard[chr];
     if (key != null)
-	return key;
+	      return key;
 
     key = {};
     // Attributes
@@ -28,16 +28,16 @@ Input.keys = function(chr) {
     key.isTriggered = false;
 
     key.up = function() {
-	key.isTriggered = false;
-	key.isDown = false;
-	key.isUp = true;
+	      key.isTriggered = false;
+	      key.isDown = false;
+	      key.isUp = true;
     }
     key.down = function() {
-	key.isTriggered = false;
-	if(key.isUp && !key.isTriggered)
-	    key.isTriggered = true;
-	key.isDown = true;
-	key.isUp = false;
+	      key.isTriggered = false;
+	      if(key.isUp && !key.isTriggered)
+	          key.isTriggered = true;
+	      key.isDown = true;
+	      key.isUp = false;
     }
 
     Input.keyboard[chr] = key;
@@ -46,14 +46,14 @@ Input.keys = function(chr) {
 
 Input.initalizeListeners = function() {
     downHandler = function(event) {
-	var chr = String.fromCharCode(event.keyCode);
-	Input.keys(chr).down();
-	event.preventDefault();
+	      var chr = String.fromCharCode(event.keyCode);
+	      Input.keys(chr).down();
+	      event.preventDefault();
     }
     upHandler = function(event) {
-	var chr = String.fromCharCode(event.keyCode);
-	Input.keys(chr).up();
-	event.preventDefault();
+	      var chr = String.fromCharCode(event.keyCode);
+	      Input.keys(chr).up();
+	      event.preventDefault();
     }
 
     window.addEventListener("keydown", downHandler, false);
