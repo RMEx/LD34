@@ -10,7 +10,7 @@ Graphics.Parallax =
 Graphics.Parallax.prototype = {
     asTile : function() {
         if (this.tile == undefined) {
-            var texture = PIXI.Texture.fromImage(file);
+            var texture = PIXI.Texture.fromImage(this.file);
             this.tile = new PIXI.extras.TilingSprite(
                 texture,
                 renderer.width,
