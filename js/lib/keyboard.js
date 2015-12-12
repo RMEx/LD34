@@ -59,3 +59,5 @@ Input.initalizeListeners = function() {
     window.addEventListener("keydown", downHandler, false);
     window.addEventListener("keyup", upHandler, false);
 }
+Input.initalizeListeners();
+
