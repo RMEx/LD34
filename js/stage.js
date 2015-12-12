@@ -24,6 +24,7 @@ Graphics.Parallax.prototype = {
         stage.raw().addChild(this.asTile());
     }
 };
+// Ceci est un test
 
 Graphics.Stage = function() {
     this.stage = new PIXI.Container();
