@@ -20,15 +20,22 @@ Graphics.Parallax =
         }
 
         this.render = function(stage) {
-            stage.addChild(this.asTile());
+            stage.raw().addChild(this.asTile());
         }
 
         
         
     };
 
-Graphics.Stage = function(body) {
-    this.body = body;
+Graphics.Stage = function() {
+    this.stage = new PIXI.Container();
+    this.parallaxes = [];
+    this.raw = function() { return this.stage; }
+    this.addParallax = function(file, sx, sy, ax, ay) {
+        var parallax = new Graphics.Parallax(file, sx, sy, ax, ay);
+        parallax.render(this);
+        this.parallaxes.push(parallax)
+    }
 };
 
 

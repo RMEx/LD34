@@ -1,6 +1,9 @@
-var stage = new PIXI.Container();
-var test = new Graphics.Parallax(
-    'assets/images/bc.png',
-    0, 0, 0, 0
-)
-test.render(stage);
+var stage = new Graphics.Stage();
+stage.addParallax('assets/images/bc.png')
+
+animate();
+function animate() {
+    requestAnimationFrame(animate);
+
+    renderer.render(stage.raw());
+}
