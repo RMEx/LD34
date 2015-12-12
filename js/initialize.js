@@ -1,3 +1,3 @@
 var Graphics = {};
-var renderer = PIXI.autoDetectRenderer(800, 460);
+var renderer = new PIXI.CanvasRenderer(800, 460);
 document.body.appendChild(renderer.view);
