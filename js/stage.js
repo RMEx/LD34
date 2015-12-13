@@ -47,12 +47,32 @@ Graphics.Stage = function() {
     this.parallaxes = [];
     this.events = [];
     this.enemies = [];
-    this.player = null;
+    this.players = [];
+    this.sprites = [];
+    this.polygons = [];
+    this.pause = true;
 };
 
 Graphics.Stage.prototype = {
     
     raw : function() { return this.stage; },
+
+    render: function() { renderer.render(this.raw()); },
+
+    addEvent: function(callback) {
+        this.events.push(callback);
+        return this;
+    },
+
+    addSprite: function(sprite, callback) {
+        this.sprites.push({sprite:sprite, update:callback});
+        this.raw().addChild(sprite);
+        return this;
+    },
+
+    addColisionPath : function(points) {
+        return this;
+    },
 
     update_parallaxes_position : function () {
         var that = this;
@@ -61,28 +81,62 @@ Graphics.Stage.prototype = {
         });
     },
 
+    update_sprites : function () {
+        this.sprites.forEach(function(elt) {
+            if (elt.update != undefined) {
+                elt.update(elt.sprite);
+            }
+        });
+    },
+
     update_general : function () {
+        that = this;
         this.events.forEach(function(elt){
-            elt(this);
+            elt(that);
         });
         this.enemies.forEach(function(elt){
-            elt.update(this);
+            elt.update(that);
         });
-        if(this.player != null) {
-            this.player.update(this);
-        }
+        this.update_sprites();
+        this.players.forEach(function(elt){
+            elt.update(that);
+        });
+    },
+
+    stop : function() {
+        this.pause = true;
+    },
+
+    resume : function() {
+        this.pause = false;
     },
 
     update : function () {
-        this.update_parallaxes_position();
-        this.update_general();
+        if(!this.pause){
+            this.update_parallaxes_position();
+            this.update_general();
+        }
     },
 
     addParallax : function(file, sx, sy, ax, ay) {
         var parallax = new Graphics.Parallax(file, sx, sy, ax, ay);
         parallax.render(this);
         this.parallaxes.push(parallax)
+        return this;
     }
 };
 
 
+
+// Monkeypatching examples
+
+// Graphics.TestStage = function() {
+//     Graphics.Stage.call(this);
+//     this.machin = 'lol';
+// }
+
+// Graphics.TestStage.prototype = Object.create(Graphics.Stage.prototype);
+// Graphics.TestStage.prototype.update = function () {
+//     Graphics.Stage.prototype.update.call(this);
+//     console.log(this.machin);
+// }
