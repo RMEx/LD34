@@ -68,14 +68,14 @@ Graphics.Stage.prototype = {
         this.enemies.forEach(function(elt){
             elt.update(this);
         });
-        if this.player != null {
+        if(this.player != null) {
             this.player.update(this);
         }
     },
 
     update : function () {
-        update_parallaxes_position();
-        update_general();
+        this.update_parallaxes_position();
+        this.update_general();
     },
 
     addParallax : function(file, sx, sy, ax, ay) {

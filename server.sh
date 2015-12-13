@@ -1,2 +1,2 @@
 #!/bin/bash
-php -S localhost:7777
+python -m SimpleHTTPServer 7777
