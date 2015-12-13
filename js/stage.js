@@ -64,8 +64,9 @@ Graphics.Stage.prototype = {
         return this;
     },
 
-    addSprite: function(sprite, callback) {
+    addSprite: function(sprite, callback, append) {
         this.sprites.push({sprite:sprite, update:callback});
+        if(append != undefined) { append(sprite); }
         this.raw().addChild(sprite);
         return this;
     },
