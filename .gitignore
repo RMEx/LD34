@@ -35,3 +35,8 @@ tramp
 # cask packages
 .cask/
 
+# MAC
+**/*.DS_Store
+
+# Rushs
+assets/music/rushs/*
