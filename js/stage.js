@@ -47,9 +47,10 @@ Graphics.Stage = function() {
     this.parallaxes = [];
     this.events = [];
     this.enemies = [];
-    this.player = null;
-    this.pause = true;
+    this.players = [];
     this.sprites = [];
+    this.polygons = [];
+    this.pause = true;
 };
 
 Graphics.Stage.prototype = {
@@ -69,6 +70,10 @@ Graphics.Stage.prototype = {
         return this;
     },
 
+    addColisionPath : function(points) {
+        return this;
+    },
+
     update_parallaxes_position : function () {
         var that = this;
         this.parallaxes.forEach(function(elt) {
@@ -85,16 +90,17 @@ Graphics.Stage.prototype = {
     },
 
     update_general : function () {
+        that = this;
         this.events.forEach(function(elt){
-            elt(this);
+            elt(that);
         });
         this.enemies.forEach(function(elt){
-            elt.update(this);
+            elt.update(that);
         });
         this.update_sprites();
-        if(this.player != null) {
-            this.player.update(this);
-        }
+        this.players.forEach(function(elt){
+            elt.update(that);
+        });
     },
 
     stop : function() {
