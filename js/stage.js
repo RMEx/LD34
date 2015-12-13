@@ -48,11 +48,18 @@ Graphics.Stage = function() {
     this.events = [];
     this.enemies = [];
     this.player = null;
+    this.pause = true;
 };
 
 Graphics.Stage.prototype = {
     
     raw : function() { return this.stage; },
+
+    render: function() { renderer.render(this.raw()); },
+
+    addEvent: function(callback) {
+        this.events.push(callback);
+    },
 
     update_parallaxes_position : function () {
         var that = this;
@@ -73,9 +80,19 @@ Graphics.Stage.prototype = {
         }
     },
 
+    stop : function() {
+        this.pause = true;
+    },
+
+    resume : function() {
+        this.pause = false;
+    },
+
     update : function () {
-        this.update_parallaxes_position();
-        this.update_general();
+        if(!this.pause){
+            this.update_parallaxes_position();
+            this.update_general();
+        }
     },
 
     addParallax : function(file, sx, sy, ax, ay) {

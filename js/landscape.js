@@ -5,7 +5,7 @@ Landscape = function(x, y, points) {
     this.graphics.beginFill(0xFF3300);
     this.graphics.moveTo(x, y);
     points.forEach(function(point) {
-	graphics.lineTo(point[0], point[1]);
+	      graphics.lineTo(point[0], point[1]);
     });
     this.graphics.endFill();
     this.graphics.alpha = 0;
