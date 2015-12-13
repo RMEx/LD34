@@ -11,9 +11,9 @@ Hero = function(image_path, x, y, landscape) {
 
 Hero.prototype = {
     update: function() {
-	this.gravity.update();
-	var fx = this.x + this.gravity.speed.x;
-	var fy = this.y + this.gravity.speed.y;
+	      this.gravity.update();
+	      var fx = this.x + this.gravity.speed.x;
+	      var fy = this.y + this.gravity.speed.y;
 
 	// Colisions calculs
 	this.hitbox.pos.x = fx;

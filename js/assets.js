@@ -1,3 +1,11 @@
+Assets.Graphics = {
+    helice : 'assets/images/helice.png',
+}
+
+Assets.Bg = {
+    test : 'assets/images/bg/test.png',
+}
+
 Assets.Audio = {
     test: new Audio('assets/music/test.mp3'),
 
