@@ -3,10 +3,10 @@ Assets.Audio = {
     pas: new Audio('assets/music/pas.mp3'),
 
     init: function () {
-    	var that = this;
-    	this.pas.addEventListener('ended', function() {
-    		that.pas.currentTime = 0;
-    		that.pas.play();
-		}, false);
+    	  var that = this;
+    	  this.pas.addEventListener('ended', function() {
+    		    that.pas.currentTime = 0;
+    		    that.pas.play();
+		    }, false);
     }
 }
