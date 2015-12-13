@@ -49,6 +49,7 @@ Graphics.Stage = function() {
     this.enemies = [];
     this.player = null;
     this.pause = true;
+    this.sprites = [];
 };
 
 Graphics.Stage.prototype = {
@@ -59,12 +60,27 @@ Graphics.Stage.prototype = {
 
     addEvent: function(callback) {
         this.events.push(callback);
+        return this;
+    },
+
+    addSprite: function(sprite, callback) {
+        this.sprites.push({sprite:sprite, update:callback});
+        this.raw().addChild(sprite);
+        return this;
     },
 
     update_parallaxes_position : function () {
         var that = this;
         this.parallaxes.forEach(function(elt) {
             elt.update(that.ox, that.oy);
+        });
+    },
+
+    update_sprites : function () {
+        this.sprites.forEach(function(elt) {
+            if (elt.update != undefined) {
+                elt.update(elt.sprite);
+            }
         });
     },
 
@@ -75,6 +91,7 @@ Graphics.Stage.prototype = {
         this.enemies.forEach(function(elt){
             elt.update(this);
         });
+        this.update_sprites();
         if(this.player != null) {
             this.player.update(this);
         }
@@ -99,7 +116,21 @@ Graphics.Stage.prototype = {
         var parallax = new Graphics.Parallax(file, sx, sy, ax, ay);
         parallax.render(this);
         this.parallaxes.push(parallax)
+        return this;
     }
 };
 
 
+
+// Monkeypatching examples
+
+// Graphics.TestStage = function() {
+//     Graphics.Stage.call(this);
+//     this.machin = 'lol';
+// }
+
+// Graphics.TestStage.prototype = Object.create(Graphics.Stage.prototype);
+// Graphics.TestStage.prototype.update = function () {
+//     Graphics.Stage.prototype.update.call(this);
+//     console.log(this.machin);
+// }

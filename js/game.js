@@ -1,23 +1,24 @@
-var t1 = GameState.addStage('test1', new Graphics.Stage());
-var t2 = GameState.addStage('test2', new Graphics.Stage());
+var t1 = GameState.addStage('test1', new Graphics.Stage())
+    .addParallax('assets/images/bc.png', 3, 1, 3, 0)
+    .addEvent(function(stage){
+        if(Input.keys(Input.UP).isDown) {
+            GameState.switchStage('test2');
+        }
+    });
 
-t1.addParallax('assets/images/bc.png', 3, 1, 3, 0);
-t2.addParallax('assets/images/wap.png', 3, 1, 3, 0);
+var t2 = GameState.addStage('test2', new Graphics.Stage())
+    .addParallax('assets/images/wap.png', 3, 1, 3, 0)
+    .addSprite(
+        new PIXI.Sprite.fromImage('assets/images/bc.png'),
+        function(sprite){ sprite.rotation += 0.1; }
+    )
+    .addEvent(function(stage){
+        if(Input.keys(Input.DOWN).isDown) {
+            GameState.switchStage('test1');
+        }
+    });
 
-t1.addEvent(function(stage){
-    if(Input.keys(Input.UP).isDown) {
-        GameState.switchStage('test2');
-    }
-});
-
-t2.addEvent(function(stage){
-    if(Input.keys(Input.DOWN).isDown) {
-        GameState.switchStage('test1');
-    }
-});
-
-
-
+console.log("go");
 GameState.switchStage('test1');
 
 animate();
