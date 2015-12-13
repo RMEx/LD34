@@ -45,19 +45,37 @@ Graphics.Stage = function() {
     this.oy = 0;
     this.stage = new PIXI.Container();
     this.parallaxes = [];
+    this.events = [];
+    this.enemies = [];
+    this.player = null;
 };
 
 Graphics.Stage.prototype = {
     
     raw : function() { return this.stage; },
 
-    update : function () {
-        // Update parallaxes
-        ox = this.ox;
-        oy = this.oy;
+    update_parallaxes_position : function () {
+        var that = this;
         this.parallaxes.forEach(function(elt) {
-            elt.update(ox, oy);
+            elt.update(that.ox, that.oy);
         });
+    },
+
+    update_general : function () {
+        this.events.forEach(function(elt){
+            elt(this);
+        });
+        this.enemies.forEach(function(elt){
+            elt.update(this);
+        });
+        if this.player != null {
+            this.player.update(this);
+        }
+    },
+
+    update : function () {
+        update_parallaxes_position();
+        update_general();
     },
 
     addParallax : function(file, sx, sy, ax, ay) {
