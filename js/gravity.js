@@ -33,8 +33,10 @@ Gravity.prototype = {
 	    var collided = SAT.testPolygonPolygon(hitbox, polygon, response);
 	    new_pos = new PIXI.Point(new_pos.x - response.overlapV.x, new_pos.y - response.overlapV.y);
 	    if(response.overlapV.x != 0) { sx = 0; }
-	    if(response.overlapV.y != 0) { sy = 0;
-					   isJumping = false; }
+	    if(response.overlapV.y != 0) { 
+          if(sy > 0) {  isJumping = false; }
+          sy = 0;
+      }
 	});
 
 	this.speed.x = sx;
