@@ -8,6 +8,15 @@ var t1 = GameState.addStage('test1', new Graphics.Stage())
 
 
 var t2 = GameState.addStage('test2', new Graphics.Stage())
+    .addHitbox([
+        {x:153,y:488,w:988,h:75},
+        {x:162,y:56,w:986,h:98},
+        {x:1051,y:373,w:106,h:119},
+        {x:137,y:111,w:114,h:432},
+        {x:981,y:151,w:154,h:231},
+        {x:527,y:359,w:231,h:17},
+        {x:629,y:259,w:350,h:17}
+    ])
     .addParallax('assets/images/bg/test.png', 1, 1, 0, 0)
     .addSprite(
         new PIXI.Sprite.fromImage('assets/images/helice.png'),
@@ -21,7 +30,16 @@ var t2 = GameState.addStage('test2', new Graphics.Stage())
             sprite.position.y = 347;
         }
     )
-    .addSprite(hero.sprite)
+    .addPlayer(
+        Array.apply(null, {length: 8}).map(function(_, i){
+            return 'assets/images/charsets/red/red_walk-0' + (i+1) + '.png';
+        }), 300, 200
+    )
+    .addPlayer(
+        Array.apply(null, {length: 8}).map(function(_, i){
+            return 'assets/images/charsets/blue/blue_walk-0' + (i+1) + '.png';
+        }), 350, 200, default_kb2
+    )
     .addEvent(function(stage){
         if(Input.keys(Input.DOWN).isDown) {
             GameState.switchStage('test1');
@@ -38,16 +56,6 @@ animate();
 function animate() {
     
     requestAnimationFrame(animate);
-    if(Input.keys(Input.RIGHT).isDown) {
-	      hero.forward();
-    } else if(Input.keys(Input.LEFT).isDown) {
-    	  hero.backward();
-    } else { hero.idle(); }
-    
-    if(Input.keys(Input.UP).isTriggered) {
-    	  hero.jump();
-    }
-    hero.update();
     GameState.stage.update();
     GameState.stage.render();
 }

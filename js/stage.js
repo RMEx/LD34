@@ -49,7 +49,7 @@ Graphics.Stage = function() {
     this.enemies = [];
     this.players = [];
     this.sprites = [];
-    this.polygons = [];
+    this.hitbox = null;
     this.pause = true;
 };
 
@@ -61,6 +61,29 @@ Graphics.Stage.prototype = {
 
     addEvent: function(callback) {
         this.events.push(callback);
+        return this;
+    },
+
+    addHitbox : function(list) {
+        this.hitbox = 
+            list.map(function(a){
+                return new Polygon([
+                    [a.x,a.y],
+                    [a.x+a.w,a.y],
+                    [a.x+a.w,a.y+a.h],
+                    [a.x,a.y+a.h]
+                ]).hitbox
+            });
+        
+        return this;
+    },
+
+    addPlayer: function(chars, x, y, keybinding, tnt) {
+        var character = new Player(chars, this.hitbox, x, y, keybinding, tnt);
+        this.players.push(character);
+        character.movie.position.x = x;
+        character.movie.position.y = y;
+        this.raw().addChild(character.movie);
         return this;
     },
 

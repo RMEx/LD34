@@ -74,58 +74,50 @@ Hero.prototype = {
 
 }
 
-Landscape = function(points) {
-    this.hitbox = new SAT.Polygon(
-        new SAT.Vector(0,0),
-        points.map(function(pt) {
-            return new SAT.Vector(pt[0], pt[1])
-        }));
-}
+// var rect1 = new Landscape(
+//     [
+//         [153, 488],
+//         [153, 488+75],
+//         [153+988, 488+75],
+//         [153+988, 488]
+//     ]
+// );
 
-var rect1 = new Landscape(
-    [
-        [153, 488],
-        [153, 488+75],
-        [153+988, 488+75],
-        [153+988, 488]
-    ]
-);
-
-a = {x:162,y:56,w:986,h:98};
-a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
-var rect2 = new Landscape(a);
+// a = {x:162,y:56,w:986,h:98};
+// a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+// var rect2 = new Landscape(a);
 
 
-a = {x:1051,y:373,w:106,h:119};
-a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
-var rect3 = new Landscape(a);
+// a = {x:1051,y:373,w:106,h:119};
+// a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+// var rect3 = new Landscape(a);
 
-a = {x:137,y:111,w:114,h:432};
-a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
-var rect4 = new Landscape(a);
-
-
-a = {x:981,y:151,w:154,h:231};
-a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
-var rect5 = new Landscape(a);
-
-a = {x:527,y:359,w:231,h:17};
-a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
-var rect6 = new Landscape(a);
-
-a = {x:629,y:259,w:350,h:17};
-a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
-var rect7 = new Landscape(a);
+// a = {x:137,y:111,w:114,h:432};
+// a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+// var rect4 = new Landscape(a);
 
 
-var gones = [
-    rect1.hitbox,
-    rect2.hitbox,
-    rect3.hitbox,
-    rect4.hitbox,
-    rect5.hitbox,
-    rect6.hitbox,
-    rect7.hitbox
-];
-var hero = new Hero("assets/images/_hero.png", 433, 100, gones);
+// a = {x:981,y:151,w:154,h:231};
+// a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+// var rect5 = new Landscape(a);
+
+// a = {x:527,y:359,w:231,h:17};
+// a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+// var rect6 = new Landscape(a);
+
+// a = {x:629,y:259,w:350,h:17};
+// a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+// var rect7 = new Landscape(a);
+
+
+// var gones = [
+//     rect1.hitbox,
+//     rect2.hitbox,
+//     rect3.hitbox,
+//     rect4.hitbox,
+//     rect5.hitbox,
+//     rect6.hitbox,
+//     rect7.hitbox
+// ];
+// var hero = new Hero("assets/images/_hero.png", 433, 100, gones);
 

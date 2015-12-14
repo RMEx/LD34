@@ -10,10 +10,17 @@
 Input.keyboard = {}
 
 // Constants
-Input.DOWN = '('
-Input.LEFT = '%'
-Input.RIGHT = "'"
-Input.UP = '&'
+Input.DOWN = '(';
+Input.LEFT = '%';
+Input.RIGHT = "'";
+Input.UP = '&';
+
+Input.DOWN2 = 'S';
+Input.LEFT2 = 'Q';
+Input.RIGHT2 = 'D';
+Input.UP2 = 'Z';
+
+
 
 Input.keys = function(chr) {
     var key = Input.keyboard[chr];
