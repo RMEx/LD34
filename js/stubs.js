@@ -9,21 +9,68 @@ Hero = function(image_path, x, y, landscape) {
     this.y = y;
     this.sprite.x = x;
     this.sprite.y = y;
+
+    this.isWalking = false;
+    this.isJumping = true;
+    this.oldY = 0;
 }
 
 
 Hero.prototype = {
     update: function() {
-	      var sprite_pos = new PIXI.Point(this.sprite.x, this.sprite.y);
-	      var new_pos = this.gravity.update(sprite_pos, gones);
-	      this.sprite.x = new_pos.x;
-	      this.sprite.y = new_pos.y;
+        var sprite_pos = new PIXI.Point(this.sprite.x, this.sprite.y);
+        var new_pos = this.gravity.update(sprite_pos, gones);
+
+        if (this.isWalking &&
+                (this.gravity.speed.y > 1 || this.gravity.speed.x == 0)) {
+            this.stopWalkMusic();
+        }
+
+        if (this.isJumping && this.gravity.speed.y == 0 &&
+                Math.abs(this.sprite.y - this.oldY) > 1) {
+            this.stopJumpMusic();
+        }
+
+        this.sprite.x = new_pos.x;
+        this.oldY = this.sprite.y;
+        this.sprite.y = new_pos.y;
     },
     // use these to make player move, call idle when nothing is pressed
     idle: function() { this.gravity.idle(); },
-    forward: function() { this.gravity.forward(); },
-    backward: function() { this.gravity.backward(); },
-    jump: function() { this.gravity.jump(); }
+    forward: function() {
+        this.gravity.forward();
+        if (!this.isWalking && this.gravity.speed.y == 0) {
+            this.startWalkMusic();
+        }
+    },
+    backward: function() {
+        this.gravity.backward();
+        if (!this.isWalking && this.gravity.speed.y == 0) {
+            this.startWalkMusic();
+        }
+    },
+    jump: function() {
+        if (!this.isJumping)
+            this.startJumpMusic();
+        this.gravity.jump();
+    },
+
+
+    startWalkMusic: function () {
+        this.isWalking = true;
+        Assets.Audio.feet1.play();
+    },
+    stopWalkMusic: function () {
+        this.isWalking = false;
+        Assets.Audio.feet1.pause();
+    },
+    startJumpMusic: function () {
+        this.isJumping = true;
+        Assets.Audio.jump.play();
+    },
+    stopJumpMusic: function () {
+        this.isJumping = false;
+    },
 
 }
 
