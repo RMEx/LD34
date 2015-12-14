@@ -33,18 +33,21 @@ var t2 = GameState.addStage('test2', new Graphics.Stage())
     .addPlayer(
         Array.apply(null, {length: 8}).map(function(_, i){
             return 'assets/images/charsets/red/red_walk-0' + (i+1) + '.png';
-        }), 300, 200
+        }),
+        Array.apply(null, {length: 3}).map(function(_, i){
+            return 'assets/images/charsets/red/red_shoot-0' + (i+1) + '.png';
+        }),
+        300, 200
     )
     .addPlayer(
         Array.apply(null, {length: 8}).map(function(_, i){
             return 'assets/images/charsets/blue/blue_walk-0' + (i+1) + '.png';
-        }), 350, 200, default_kb2
-    )
-    .addEvent(function(stage){
-        if(Input.keys(Input.DOWN).isDown) {
-            GameState.switchStage('test1');
-        }
-    });
+        }),
+        Array.apply(null, {length: 3}).map(function(_, i){
+            return 'assets/images/charsets/blue/blue_shoot-0' + (i+1) + '.png';
+        }),
+        350, 200, default_kb2
+    );
 
 
 
