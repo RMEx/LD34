@@ -24,6 +24,9 @@ Character = function(charsets, polygons, x, y) {
     this.isWalking = false;
     this.isJumping = true;
     this.oldY = 0;
+
+    this.maxHealth = 5
+    this.health = 5;
 }
 
 Character.prototype = {
