@@ -6,7 +6,7 @@ var t1 = GameState.addStage('test1', new Graphics.Stage())
         }
     });
 
-
+bubble = new Bubble(0,0, 0, 0, 'text djdjd.', 0x000000, 0x000000)
 var t2 = GameState.addStage('test2', new Graphics.Stage())
     .addParallax('assets/images/bg/test.png', 1, 1, 0, 0)
     .addSprite(
@@ -22,6 +22,7 @@ var t2 = GameState.addStage('test2', new Graphics.Stage())
         }
     )
     .addSprite(hero.sprite)
+    .addSprite(bubble.sprite)
     .addEvent(function(stage){
         if(Input.keys(Input.DOWN).isDown) {
             GameState.switchStage('test1');
@@ -47,7 +48,17 @@ function animate() {
     if(Input.keys(Input.UP).isTriggered) {
     	  hero.jump();
     }
-    hero.update();
+    hero.update();   
     GameState.stage.update();
     GameState.stage.render();
+}
+
+Foo = function() {
+    this.evt = document.createEvent("Event");
+    this.evt.initEvent("bubble_word_sound",true,true);
+    document.addEventListener("bubble_word_sound",function(){console.log("TEST")},false);
+    this.change();
+}
+Foo.prototype = {
+    change: function() { document.dispatchEvent(this.evt);  }
 }
