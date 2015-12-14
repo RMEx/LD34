@@ -25,8 +25,8 @@ Character = function(charsets, polygons, x, y) {
     this.isJumping = true;
     this.oldY = 0;
 
-    this.maxHealth = 5
-    this.health = 5;
+    this.maxHealth = 30
+    this.health = this.maxHealth;
 }
 
 Character.prototype = {
@@ -123,6 +123,13 @@ Character.prototype = {
         this.movie.animationSpeed = 0.8;
         this.movie.play();
         this.gravity.jump();
+    },
+    hurt: function() {
+	this.health -= 1;
+	if(this.health == 0) {
+	    console.log("is dead");
+	    // Do something
+	}
     }
     
 }
