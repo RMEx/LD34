@@ -90,6 +90,7 @@ Graphics.Stage.prototype = {
         character.movie.position.x = x;
         character.movie.position.y = y;
         this.raw().addChild(character.movie);
+        this.raw().addChild(character.healthBar);
         return this;
     },
 
