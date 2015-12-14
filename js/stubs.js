@@ -14,10 +14,10 @@ Hero = function(image_path, x, y, landscape) {
 
 Hero.prototype = {
     update: function() {
-	var sprite_pos = new PIXI.Point(this.sprite.x, this.sprite.y);
-	var new_pos = this.gravity.update(sprite_pos, gones);
-	this.sprite.x = new_pos.x;
-	this.sprite.y = new_pos.y;
+	      var sprite_pos = new PIXI.Point(this.sprite.x, this.sprite.y);
+	      var new_pos = this.gravity.update(sprite_pos, gones);
+	      this.sprite.x = new_pos.x;
+	      this.sprite.y = new_pos.y;
     },
     // use these to make player move, call idle when nothing is pressed
     idle: function() { this.gravity.idle(); },
@@ -27,10 +27,58 @@ Hero.prototype = {
 
 }
 
-Landscape = function(x, y, points) {
-    this.hitbox = new SAT.Polygon(new SAT.Vector(x,y), points.map(function(pt) { return new SAT.Vector(pt[0], pt[1]) }));
+Landscape = function(points) {
+    this.hitbox = new SAT.Polygon(
+        new SAT.Vector(0,0),
+        points.map(function(pt) {
+            return new SAT.Vector(pt[0], pt[1])
+        }));
+}
 
-// var landscape = new Landscape(0, 460, [[0,0], [1600, 0], [1600,-130], [0, -130]]);
-// var ld2 = new Landscape(300, 160, [[0,0], [300, 0], [300, 500], [0, 500]]);
-// var gones = [landscape.hitbox, ld2.hitbox];
-// var hero = new Hero("assets/images/_hero.png", 50, 50, landscape);
+var rect1 = new Landscape(
+    [
+        [153, 488],
+        [153, 488+75],
+        [153+988, 488+75],
+        [153+988, 488]
+    ]
+);
+
+a = {x:162,y:56,w:986,h:98};
+a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+var rect2 = new Landscape(a);
+
+
+a = {x:1051,y:373,w:106,h:119};
+a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+var rect3 = new Landscape(a);
+
+a = {x:137,y:111,w:114,h:432};
+a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+var rect4 = new Landscape(a);
+
+
+a = {x:981,y:151,w:154,h:231};
+a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+var rect5 = new Landscape(a);
+
+a = {x:527,y:359,w:231,h:17};
+a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+var rect6 = new Landscape(a);
+
+a = {x:629,y:259,w:350,h:17};
+a = [[a.x,a.y],[a.x+a.w,a.y],[a.x+a.w,a.y+a.h],[a.x,a.y+a.h]];
+var rect7 = new Landscape(a);
+
+
+var gones = [
+    rect1.hitbox,
+    rect2.hitbox,
+    rect3.hitbox,
+    rect4.hitbox,
+    rect5.hitbox,
+    rect6.hitbox,
+    rect7.hitbox
+];
+var hero = new Hero("assets/images/_hero.png", 433, 100, gones);
+

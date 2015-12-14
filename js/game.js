@@ -21,6 +21,7 @@ var t2 = GameState.addStage('test2', new Graphics.Stage())
             sprite.position.y = 347;
         }
     )
+    .addSprite(hero.sprite)
     .addEvent(function(stage){
         if(Input.keys(Input.DOWN).isDown) {
             GameState.switchStage('test1');
@@ -37,7 +38,16 @@ animate();
 function animate() {
     
     requestAnimationFrame(animate);
-
+    if(Input.keys(Input.RIGHT).isDown) {
+	      hero.forward();
+    } else if(Input.keys(Input.LEFT).isDown) {
+    	  hero.backward();
+    } else { hero.idle(); }
+    
+    if(Input.keys(Input.UP).isTriggered) {
+    	  hero.jump();
+    }
+    hero.update();
     GameState.stage.update();
     GameState.stage.render();
 }
