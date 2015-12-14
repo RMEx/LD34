@@ -1,3 +1,11 @@
+function makeTextureArray(name, state, len) {
+    return Array.apply(null, {length: len}).map(function(_, i){
+        return PIXI.Texture.fromImage(
+            'assets/images/charsets/'+name+'/'+name+'_'+state+'-0' + (i+1) + '.png'
+        );
+    });
+};
+
 var t1 = GameState.addStage('test1', new Graphics.Stage())
     .addParallax('assets/images/bc.png', 3, 1, 0, 0)
     .addEvent(function(stage){
@@ -5,7 +13,6 @@ var t1 = GameState.addStage('test1', new Graphics.Stage())
             GameState.switchStage('test2');
         }
     });
-
 
 var t2 = GameState.addStage('test2', new Graphics.Stage())
     .addHitbox([
@@ -31,21 +38,17 @@ var t2 = GameState.addStage('test2', new Graphics.Stage())
         }
     )
     .addPlayer(
-        Array.apply(null, {length: 8}).map(function(_, i){
-            return 'assets/images/charsets/red/red_walk-0' + (i+1) + '.png';
-        }),
-        Array.apply(null, {length: 3}).map(function(_, i){
-            return 'assets/images/charsets/red/red_shoot-0' + (i+1) + '.png';
-        }),
+        {
+            walk:  makeTextureArray('red', 'walk', 8),
+            shoot: makeTextureArray('red', 'shoot', 3)
+        },
         300, 200
     )
     .addPlayer(
-        Array.apply(null, {length: 8}).map(function(_, i){
-            return 'assets/images/charsets/blue/blue_walk-0' + (i+1) + '.png';
-        }),
-        Array.apply(null, {length: 3}).map(function(_, i){
-            return 'assets/images/charsets/blue/blue_shoot-0' + (i+1) + '.png';
-        }),
+        {
+            walk:  makeTextureArray('blue', 'walk', 8),
+            shoot: makeTextureArray('blue', 'shoot', 3)
+        },
         350, 200, default_kb2
     );
 

@@ -1,8 +1,8 @@
-Character = function(charsets, shooter, polygons, x, y) {
+Character = function(charsets, polygons, x, y) {
     this.polygons = polygons;
     this.poses = charsets.length;
-    this.shooter = shooter.length;
-    this.movie = PIXI.extras.MovieClip.fromImages(charsets.concat(shooter));
+    this.charsets = charsets;
+    this.movie = new PIXI.extras.MovieClip(charsets.walk);
     this.movie.position.x = x;
     this.movie.position.y = y;
     this.gravity = new Gravity({
@@ -71,35 +71,19 @@ Character.prototype = {
         
         this.movie.position.x = nps.x;
         this.movie.position.y = nps.y;
-        this.update_anim();
+            this.update_anim();
                               
     },
 
     update_anim : function() {
-        var r = 0;
-        var coeff = 0.2222;
         if (this.hasShooted) {
+            this.movie._textures = this.charsets.shoot;
+            this.movie.play();
+            this.bangMusic();
             this.hasShooted = false;
-            this.iterator = 0;
-        }
-        if (this.shoot) {
-            if (Math.floor(this.iterator) > (this.shooter)) {
-                this.iterator = 0;
-                this.shoot = false;
-            } else {
-                r = this.poses;
-                coeff = 0.5;
-                if (this.iterator > 1) {
-                    this.bangMusic();
-                }
-            }
         } else {
-            if (this.iterator >= this.poses) {
-                this.iterator = 0;
-            }
+            this.movie._textures = this.charsets.walk;
         }
-        this.movie.gotoAndPlay(r + Math.floor(this.iterator));
-        this.iterator += coeff;
     },
 
     base : function () {
@@ -156,15 +140,12 @@ var default_kb2 = {
 }
 
 
-Player = function (charset, shoot, polygon, x, y, keybinding, tnt) {
+Player = function (charset, polygon, x, y, keybinding) {
     
-    Character.call(this, charset, shoot,  polygon, x, y);
+    Character.call(this, charset, polygon, x, y);
     this.keybinding = keybinding;
     if (keybinding == undefined) {
         this.keybinding = default_kb; 
-    }
-    if (tnt != undefined) {
-        this.movie.tint = tnt;
     }
 }
 
@@ -178,7 +159,9 @@ Player.prototype.update = function(stage) {
     if(Input.keys(this.keybinding.up).isTriggered) { this.jump(); }
     if(Input.keys(this.keybinding.down).isTriggered && !this.hasShooted) {
         this.bang();
-    }
+    } else {
+        this.shoot = false
+    };
     
 }
 

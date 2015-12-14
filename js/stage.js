@@ -78,15 +78,13 @@ Graphics.Stage.prototype = {
         return this;
     },
 
-    addPlayer: function(chars, sht, x, y, keybinding, tnt) {
+    addPlayer: function(chars, x, y, keybinding, tnt) {
         var character = new Player(
             chars,
-            sht,
             this.hitbox,
             x,
             y,
-            keybinding,
-            tnt
+            keybinding
         );
         this.players.push(character);
         character.movie.position.x = x;
