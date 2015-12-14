@@ -143,9 +143,14 @@ var default_kb2 = {
 }
 
 
-Player = function (charset, polygon, x, y, keybinding) {
+Player = function (charset, polygon, x, y, keybinding, tnt) {
     
     Character.call(this, charset, polygon, x, y);
+
+    this.healthBar = new HealthBar(tnt || 0xFF0000);
+    this.color = tnt;
+    document.addEventListener('updateHealthBar', this.healthBar.update, false)
+
     this.keybinding = keybinding;
     if (keybinding == undefined) {
         this.keybinding = default_kb; 
