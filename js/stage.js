@@ -84,7 +84,8 @@ Graphics.Stage.prototype = {
             this.hitbox,
             x,
             y,
-            keybinding
+            keybinding,
+	    tnt
         );
         this.players.push(character);
         character.movie.position.x = x;
