@@ -1,8 +1,8 @@
 HealthBar = function(color = 0xFF0000) {
     var tex_bg = PIXI.Texture.fromImage('assets/images/_bg_health.png');
     var tex_fg = PIXI.Texture.fromImage('assets/images/_fg_health.png');
-    var healthBar = new PIXI.Container();
 
+    this.graphics = new PIXI.Container();
     this.color = color;
     this.bg = new PIXI.Sprite(tex_bg);
     this.bg.tint = color;
@@ -15,11 +15,9 @@ HealthBar = function(color = 0xFF0000) {
 
     this.content.beginFill(color);
     this.content.drawRect(0, 0, 30, 150);
-    healthBar.addChild(this.content);
-    healthBar.addChild(this.bg);
-    healthBar.addChild(this.fg);
-
-    return healthBar;
+    this.graphics.addChild(this.content);
+    this.graphics.addChild(this.bg);
+    this.graphics.addChild(this.fg);
 }
 
 HealthBar.prototype = {

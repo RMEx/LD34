@@ -91,9 +91,9 @@ Graphics.Stage.prototype = {
         character.movie.position.x = x;
         character.movie.position.y = y;
         this.raw().addChild(character.movie);
-        character.healthBar.position.x = hbCoords.x;
-        character.healthBar.position.y = hbCoords.y;
-        this.raw().addChild(character.healthBar);
+        character.healthBar.graphics.position.x = hbCoords.x;
+        character.healthBar.graphics.position.y = hbCoords.y;
+        this.raw().addChild(character.healthBar.graphics);
         return this;
     },
 
