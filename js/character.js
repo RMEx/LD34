@@ -24,6 +24,9 @@ Character = function(charsets, polygons, x, y) {
     this.isWalking = false;
     this.isJumping = true;
     this.oldY = 0;
+
+    this.maxHealth = 30
+    this.health = this.maxHealth;
 }
 
 Character.prototype = {
@@ -120,6 +123,26 @@ Character.prototype = {
         this.movie.animationSpeed = 0.8;
         this.movie.play();
         this.gravity.jump();
+    },
+    hurt: function() {
+	this.health -= 1;
+	// Update healthBar event
+	var event = new CustomEvent(
+    	    "updateHealthBar",
+    	    {
+    		detail: {
+    		    target: this,
+    		},
+    		bubbles: true,
+    		cancelable: false
+    	    }
+	);
+	document.dispatchEvent(event);
+
+	if(this.health == 0) {
+	    console.log("is dead");
+	    // Do something
+	}
     }
     
 }
@@ -140,9 +163,14 @@ var default_kb2 = {
 }
 
 
-Player = function (charset, polygon, x, y, keybinding) {
+Player = function (charset, polygon, x, y, keybinding, tnt) {
     
     Character.call(this, charset, polygon, x, y);
+
+    this.healthBar = new HealthBar(tnt || 0xFF0000);
+    this.color = tnt;
+    document.addEventListener('updateHealthBar', this.healthBar.update, false)
+
     this.keybinding = keybinding;
     if (keybinding == undefined) {
         this.keybinding = default_kb; 
@@ -153,6 +181,7 @@ Player.prototype = Object.create(Character.prototype);
 Player.prototype.update = function(stage) {
 
     Character.prototype.update.call(this, stage);
+    if(Input.keys("P").isTriggered) { this.hurt(); }
     if (Input.keys(this.keybinding.right).isDown) { this.forward(); }
     else if (Input.keys(this.keybinding.left).isDown) { this.backward(); }
     else { this.idle(); }

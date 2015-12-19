@@ -78,18 +78,22 @@ Graphics.Stage.prototype = {
         return this;
     },
 
-    addPlayer: function(chars, x, y, keybinding, tnt) {
+    addPlayer: function(chars, x, y, keybinding, tnt, hbCoords) {
         var character = new Player(
             chars,
             this.hitbox,
             x,
             y,
-            keybinding
+            keybinding,
+	    tnt
         );
         this.players.push(character);
         character.movie.position.x = x;
         character.movie.position.y = y;
         this.raw().addChild(character.movie);
+        character.healthBar.graphics.position.x = hbCoords.x;
+        character.healthBar.graphics.position.y = hbCoords.y;
+        this.raw().addChild(character.healthBar.graphics);
         return this;
     },
 
