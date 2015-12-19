@@ -181,6 +181,7 @@ Player.prototype = Object.create(Character.prototype);
 Player.prototype.update = function(stage) {
 
     Character.prototype.update.call(this, stage);
+    if(Input.keys("P").isTriggered) { this.hurt(); }
     if (Input.keys(this.keybinding.right).isDown) { this.forward(); }
     else if (Input.keys(this.keybinding.left).isDown) { this.backward(); }
     else { this.idle(); }
