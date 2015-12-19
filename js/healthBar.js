@@ -21,4 +21,18 @@ HealthBar = function(color = 0xFF0000) {
 }
 
 HealthBar.prototype = {
+    update: function(evt) {
+	if(!evt.detail)
+	    return; // Escape from evt is undefineed behavior
+	var charac = evt.detail.target;
+	var healthBar = charac.healthBar;
+	if(!healthBar)
+	    return; // If no healthbar, it's a pinguin!
+	var percent = charac.health / charac.maxHealth;
+	healthBar.update_graphics(percent);
+    },
+    update_graphics: function(percent) {
+	var height = Math.trunc(this.height * percent);
+	this.bg.height = Math.max(this.height - height, 1);
+    }
 }

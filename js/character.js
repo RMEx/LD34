@@ -126,6 +126,19 @@ Character.prototype = {
     },
     hurt: function() {
 	this.health -= 1;
+	// Update healthBar event
+	var event = new CustomEvent(
+    	    "updateHealthBar",
+    	    {
+    		detail: {
+    		    target: this,
+    		},
+    		bubbles: true,
+    		cancelable: false
+    	    }
+	);
+	document.dispatchEvent(event);
+
 	if(this.health == 0) {
 	    console.log("is dead");
 	    // Do something
