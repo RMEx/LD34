@@ -97,6 +97,16 @@ Graphics.Stage.prototype = {
         return this;
     },
 
+    removePlayer: function(character) {
+        var index = this.players.indexOf(character);
+        if( index < 0 || index > this.players.length)
+        {
+            throw new Error("in RemovePlayer function: "+ index + "is out of range");
+        }
+        this.raw().removeChild(character.movie);
+        this.players.slice(index, 1);
+    },
+
     addSprite: function(sprite, callback, append) {
         this.sprites.push({sprite:sprite, update:callback});
         if(append != undefined) { append(sprite); }
