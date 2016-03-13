@@ -124,25 +124,25 @@ Character.prototype = {
         this.movie.play();
         this.gravity.jump();
     },
-    hurt: function() {
-	this.health -= 1;
-	// Update healthBar event
-	var event = new CustomEvent(
-    	    "updateHealthBar",
-    	    {
-    		detail: {
-    		    target: this,
-    		},
-    		bubbles: true,
-    		cancelable: false
-    	    }
-	);
-	document.dispatchEvent(event);
+    hurt: function(stage) {
+    	this.health -= 1;
+    	// Update healthBar event
+    	var event = new CustomEvent(
+        	    "updateHealthBar",
+        	    {
+        		detail: {
+        		    target: this,
+        		},
+        		bubbles: true,
+        		cancelable: false
+        	    }
+    	);
+    	document.dispatchEvent(event);
 
-	if(this.health == 0) {
-	    console.log("is dead");
-	    // Do something
-	}
+    	if(this.health == 0) {
+    	    console.log("is dead");
+    	    stage.removePlayer(this);
+    	}
     }
     
 }
@@ -181,7 +181,7 @@ Player.prototype = Object.create(Character.prototype);
 Player.prototype.update = function(stage) {
 
     Character.prototype.update.call(this, stage);
-    if(Input.keys("P").isTriggered) { this.hurt(); }
+    if(Input.keys("P").isTriggered) { this.hurt(stage); }
     if (Input.keys(this.keybinding.right).isDown) { this.forward(); }
     else if (Input.keys(this.keybinding.left).isDown) { this.backward(); }
     else { this.idle(); }
