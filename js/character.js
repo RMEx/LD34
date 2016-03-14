@@ -126,18 +126,6 @@ Character.prototype = {
     },
     hurt: function() {
 	this.health -= 1;
-	// Update healthBar event
-	var event = new CustomEvent(
-    	    "updateHealthBar",
-    	    {
-    		detail: {
-    		    target: this,
-    		},
-    		bubbles: true,
-    		cancelable: false
-    	    }
-	);
-	document.dispatchEvent(event);
 
 	if(this.health == 0) {
 	    console.log("is dead");
@@ -194,6 +182,22 @@ Player.prototype.update = function(stage) {
     
 }
 
+Player.prototype.hurt = function() {
+    Character.prototype.hurt.call(this)
+    // Update healthBar event
+    var event = new CustomEvent(
+            "updateHealthBar",
+            {
+            detail: {
+                target: this,
+            },
+            bubbles: true,
+            cancelable: false
+            }
+    );
+    document.dispatchEvent(event);
+};
+
 Player.prototype.bangMusic = function () {
     Assets.Audio.pew[Math.floor((Math.random() * 10) + 1)].play();
 };
@@ -215,3 +219,10 @@ Player.prototype.startJumpMusic = function () {
 Player.prototype.stopJumpMusic = function () {
     this.isJumping = false;
 };
+
+Enemy = function (charset, polygon, x, y) {
+    
+    Character.call(this, charset, polygon, x, y);
+}
+ 
+Enemy.prototype = Object.create(Character.prototype);
