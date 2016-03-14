@@ -97,6 +97,20 @@ Graphics.Stage.prototype = {
         return this;
     },
 
+    addEnemy: function(chars, x, y) {
+        var character = new Player(
+            chars,
+            this.hitbox,
+            x,
+            y
+        );
+        this.enemies.push(character);
+        character.movie.position.x = x;
+        character.movie.position.y = y;
+        this.raw().addChild(character.movie);
+        return this;
+    },
+
     addSprite: function(sprite, callback, append) {
         this.sprites.push({sprite:sprite, update:callback});
         if(append != undefined) { append(sprite); }
