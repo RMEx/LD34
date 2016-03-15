@@ -228,4 +228,5 @@ Enemy.prototype = Object.create(Character.prototype);
 
 Enemy.prototype.update = function(stage) {
     Character.prototype.update.call(this, stage);
+    this.idle();
 }
