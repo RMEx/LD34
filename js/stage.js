@@ -98,7 +98,7 @@ Graphics.Stage.prototype = {
     },
 
     addEnemy: function(chars, x, y) {
-        var character = new Player(
+        var character = new Enemy(
             chars,
             this.hitbox,
             x,

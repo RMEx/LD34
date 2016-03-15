@@ -37,22 +37,22 @@ var t2 = GameState.addStage('test2', new Graphics.Stage())
             sprite.position.y = 347;
         }
     )
-    .addPlayer(
-        {
-            walk:  makeTextureArray('red', 'walk', 8),
-            shoot: makeTextureArray('red', 'shoot', 3)
-        },
-        300, 200, default_kb, 0xFF0000,
-       {x: 10, y: 10 } // Healthbar
-    )
-    .addPlayer(
-        {
-            walk:  makeTextureArray('blue', 'walk', 8),
-            shoot: makeTextureArray('blue', 'shoot', 3)
-        },
-        350, 200, default_kb2, 0x0000FF,
-       {x: 60, y: 10 } // Healthbar
-    )
+    // .addPlayer(
+    //     {
+    //         walk:  makeTextureArray('red', 'walk', 8),
+    //         shoot: makeTextureArray('red', 'shoot', 3)
+    //     },
+    //     300, 200, default_kb, 0xFF0000,
+    //    {x: 10, y: 10 } // Healthbar
+    // )
+    // .addPlayer(
+    //     {
+    //         walk:  makeTextureArray('blue', 'walk', 8),
+    //         shoot: makeTextureArray('blue', 'shoot', 3)
+    //     },
+    //     350, 200, default_kb2, 0x0000FF,
+    //    {x: 60, y: 10 } // Healthbar
+    // )
     .addEnemy(
          {
             walk:  makeTextureArray('penguin', 'walk', 3),

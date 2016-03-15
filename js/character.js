@@ -74,7 +74,7 @@ Character.prototype = {
         
         this.movie.position.x = nps.x;
         this.movie.position.y = nps.y;
-            this.update_anim();
+        this.update_anim();
                               
     },
 
@@ -167,7 +167,6 @@ Player = function (charset, polygon, x, y, keybinding, tnt) {
 
 Player.prototype = Object.create(Character.prototype);
 Player.prototype.update = function(stage) {
-
     Character.prototype.update.call(this, stage);
     if(Input.keys("P").isTriggered) { this.hurt(); }
     if (Input.keys(this.keybinding.right).isDown) { this.forward(); }
@@ -226,3 +225,7 @@ Enemy = function (charset, polygon, x, y) {
 }
  
 Enemy.prototype = Object.create(Character.prototype);
+
+Enemy.prototype.update = function(stage) {
+    Character.prototype.update.call(this, stage);
+}
