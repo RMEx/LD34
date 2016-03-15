@@ -43,7 +43,7 @@ var t2 = GameState.addStage('test2', new Graphics.Stage())
             shoot: makeTextureArray('red', 'shoot', 3)
         },
         300, 200, default_kb, 0xFF0000,
-	{x: 10, y: 10 } // Healthbar
+       {x: 10, y: 10 } // Healthbar
     )
     .addPlayer(
         {
@@ -51,8 +51,16 @@ var t2 = GameState.addStage('test2', new Graphics.Stage())
             shoot: makeTextureArray('blue', 'shoot', 3)
         },
         350, 200, default_kb2, 0x0000FF,
-	{x: 60, y: 10 } // Healthbar
-    );
+       {x: 60, y: 10 } // Healthbar
+    )
+    .addEnemy(
+         {
+            walk:  makeTextureArray('penguin', 'walk', 3),
+            shoot: makeTextureArray('penguin', 'shoot', 4)
+        },
+        400, 200
+    )
+    ;
 
 
 
