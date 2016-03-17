@@ -1,4 +1,9 @@
+const HEIGHT = 50;
+const WIDTH = 50;
+const MAX_VISIBILITY = 1000;
+
 Character = function(charsets, polygons, x, y) {
+    console.log(polygons)
     this.polygons = polygons;
     this.poses = charsets.length;
     this.charsets = charsets;
@@ -8,7 +13,7 @@ Character = function(charsets, polygons, x, y) {
     this.gravity = new Gravity({
         hitbox:new SAT.Box(
             new SAT.Vector(0, 0),
-            50, 50
+            HEIGHT, WIDTH
         ).toPolygon()
         
     });
@@ -59,6 +64,7 @@ Character.prototype = {
     },
 
     update : function(stage) {
+        debugger
         var pos = new PIXI.Point(this.movie.position.x, this.movie.position.y);
         var nps = this.gravity.update(pos, this.polygons);
 
@@ -229,4 +235,28 @@ Enemy.prototype = Object.create(Character.prototype);
 Enemy.prototype.update = function(stage) {
     Character.prototype.update.call(this, stage);
     this.idle();
+}
+
+Enemy.prototype.shouldIKill = function(stage) {
+    var direction =  new SAT.Vector(this.movie.scale.x, this.movie.scale.y);
+    const eye = 40;
+    var eyePosition = direction.y + eye;
+    stage.enemies.forEach(function(enemy) {
+        if( ((enemy.movie.position.x >= this.movie.position.x) && direction.x == -1) || 
+            ((enemy.movie.position.x <= this.movie.position.x) && direction.x == 1) )
+        {
+            return false;
+        }
+
+        if( eyePosition > (enemy.movie.position.y + HEIGHT) ||
+            eyePostion < (enemy.movie.position) )
+        {
+            return false;
+        }
+
+
+    });
+
+
+
 }
