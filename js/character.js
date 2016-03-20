@@ -246,30 +246,28 @@ Enemy.prototype = Object.create(Character.prototype);
 Enemy.prototype.update = function(stage) {
     Character.prototype.update.call(this, stage);
     this.idle();
-    //if(this.shouldIKill(stage)){this.bang()}
-    console.log(this.shouldIKill(stage));
+    if(this.shouldIKill(stage)){this.bang()}
+    else {this.shoot = false}
 }
 
 Enemy.prototype.shouldIKill = function(stage) {
     var shouldIKill = true;
     var that = this;
-
     var direction =  new SAT.Vector(this.movie.scale.x, this.movie.scale.y);
     const eye = 40;
     var eyePosition = this.movie.y + eye;
     var hitbox = this.gravity.hitbox;
 
     stage.players.forEach(function(player) {
+        shouldIKill = true;
         if( ((player.movie.position.x >= that.movie.position.x) && direction.x == -1) ||
             ((player.movie.position.x <= that.movie.position.x) && direction.x == 1) ) {
             shouldIKill = false;
-            return;
         }
 
         if( eyePosition > (player.movie.position.y + HEIGHT) ||
             eyePosition < player.movie.position.y ) {
             shouldIKill = false;
-            return;
         }
 
         var ray = new SAT.Box(
@@ -278,7 +276,10 @@ Enemy.prototype.shouldIKill = function(stage) {
         );
         if( that.raycastToHitbox(ray, stage.hitbox)) {
             shouldIKill = false;
-            return;
+        }
+
+        if(shouldIKill) {
+            return
         }
     });
     return shouldIKill;
