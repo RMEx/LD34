@@ -12,7 +12,7 @@ Character = function(charsets, polygons, x, y) {
     this.gravity = new Gravity({
         hitbox:new SAT.Box(
             new SAT.Vector(0, 0),
-            HEIGHT, WIDTH
+            WIDTH, HEIGHT
         ).toPolygon()
         
     });
