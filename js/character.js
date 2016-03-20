@@ -1,6 +1,7 @@
 const HEIGHT = 50;
 const WIDTH = 50;
 const MAX_VISIBILITY = 1000;
+const THICKNESS_RAY = 10;
 
 Character = function(charsets, polygons, x, y) {
     this.polygons = polygons;
@@ -135,6 +136,18 @@ Character.prototype = {
 	    console.log("is dead");
 	    // Do something
 	}
+    },
+    raycastToHitbox: function(ray, hitboxStage) {
+        var collided = false
+        hitboxStage.forEach(function(hitbox) {
+            var response = new SAT.Response();
+            collided = SAT.testPolygonPolygon(ray.toPolygon(), hitbox, response)
+            // continue the loop is unnecessary
+            if (collided) {
+                return;
+            }
+        });
+        return collided;
     }
     
 }
@@ -233,27 +246,37 @@ Enemy.prototype = Object.create(Character.prototype);
 Enemy.prototype.update = function(stage) {
     Character.prototype.update.call(this, stage);
     this.idle();
+    //if(this.shouldIKill(stage)){this.bang()}
     console.log(this.shouldIKill(stage));
 }
 
 Enemy.prototype.shouldIKill = function(stage) {
     var shouldIKill = true;
+    var that = this;
+
     var direction =  new SAT.Vector(this.movie.scale.x, this.movie.scale.y);
-    var movie = this.movie;
     const eye = 40;
     var eyePosition = this.movie.y + eye;
+    var hitbox = this.gravity.hitbox;
 
     stage.players.forEach(function(enemy) {
-        if( ((enemy.movie.position.x >= movie.position.x) && direction.x == -1) || 
-            ((enemy.movie.position.x <= movie.position.x) && direction.x == 1) )
-        {
+        if( ((enemy.movie.position.x >= that.movie.position.x) && direction.x == -1) ||
+            ((enemy.movie.position.x <= that.movie.position.x) && direction.x == 1) ) {
             shouldIKill = false;
             return;
         }
 
         if( eyePosition > (enemy.movie.position.y + HEIGHT) ||
-            eyePosition < enemy.movie.position.y )
-        {
+            eyePosition < enemy.movie.position.y ) {
+            shouldIKill = false;
+            return;
+        }
+
+        var ray = new SAT.Box(
+            new SAT.Vector(that.movie.position.x, eyePosition),
+            Math.abs(enemy.movie.position.x - that.movie.position.x), THICKNESS_RAY
+        );
+        if( that.raycastToHitbox(ray, stage.hitbox)) {
             shouldIKill = false;
             return;
         }
