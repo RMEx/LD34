@@ -237,7 +237,7 @@ Player.prototype.stopJumpMusic = function () {
 };
 
 Enemy = function (charset, polygon, x, y) {
-    
+
     Character.call(this, charset, polygon, x, y);
 }
  
@@ -259,22 +259,22 @@ Enemy.prototype.shouldIKill = function(stage) {
     var eyePosition = this.movie.y + eye;
     var hitbox = this.gravity.hitbox;
 
-    stage.players.forEach(function(enemy) {
-        if( ((enemy.movie.position.x >= that.movie.position.x) && direction.x == -1) ||
-            ((enemy.movie.position.x <= that.movie.position.x) && direction.x == 1) ) {
+    stage.players.forEach(function(player) {
+        if( ((player.movie.position.x >= that.movie.position.x) && direction.x == -1) ||
+            ((player.movie.position.x <= that.movie.position.x) && direction.x == 1) ) {
             shouldIKill = false;
             return;
         }
 
-        if( eyePosition > (enemy.movie.position.y + HEIGHT) ||
-            eyePosition < enemy.movie.position.y ) {
+        if( eyePosition > (player.movie.position.y + HEIGHT) ||
+            eyePosition < player.movie.position.y ) {
             shouldIKill = false;
             return;
         }
 
         var ray = new SAT.Box(
             new SAT.Vector(that.movie.position.x, eyePosition),
-            Math.abs(enemy.movie.position.x - that.movie.position.x), THICKNESS_RAY
+            Math.abs(player.movie.position.x - that.movie.position.x), THICKNESS_RAY
         );
         if( that.raycastToHitbox(ray, stage.hitbox)) {
             shouldIKill = false;
