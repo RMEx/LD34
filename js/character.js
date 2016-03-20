@@ -3,7 +3,6 @@ const WIDTH = 50;
 const MAX_VISIBILITY = 1000;
 
 Character = function(charsets, polygons, x, y) {
-    console.log(polygons)
     this.polygons = polygons;
     this.poses = charsets.length;
     this.charsets = charsets;
@@ -64,7 +63,6 @@ Character.prototype = {
     },
 
     update : function(stage) {
-        debugger
         var pos = new PIXI.Point(this.movie.position.x, this.movie.position.y);
         var nps = this.gravity.update(pos, this.polygons);
 
@@ -235,28 +233,30 @@ Enemy.prototype = Object.create(Character.prototype);
 Enemy.prototype.update = function(stage) {
     Character.prototype.update.call(this, stage);
     this.idle();
+    console.log(this.shouldIKill(stage));
 }
 
 Enemy.prototype.shouldIKill = function(stage) {
+    var shouldIKill = true;
     var direction =  new SAT.Vector(this.movie.scale.x, this.movie.scale.y);
+    var movie = this.movie;
     const eye = 40;
-    var eyePosition = direction.y + eye;
-    stage.enemies.forEach(function(enemy) {
-        if( ((enemy.movie.position.x >= this.movie.position.x) && direction.x == -1) || 
-            ((enemy.movie.position.x <= this.movie.position.x) && direction.x == 1) )
+    var eyePosition = this.movie.y + eye;
+
+    stage.players.forEach(function(enemy) {
+        if( ((enemy.movie.position.x >= movie.position.x) && direction.x == -1) || 
+            ((enemy.movie.position.x <= movie.position.x) && direction.x == 1) )
         {
-            return false;
+            shouldIKill = false;
+            return;
         }
 
         if( eyePosition > (enemy.movie.position.y + HEIGHT) ||
-            eyePostion < (enemy.movie.position) )
+            eyePosition < enemy.movie.position.y )
         {
-            return false;
+            shouldIKill = false;
+            return;
         }
-
-
     });
-
-
-
+    return shouldIKill;
 }
