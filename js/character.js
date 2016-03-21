@@ -258,7 +258,7 @@ Enemy.prototype.shouldIKill = function(stage) {
     var eyePosition = this.movie.y + eye;
     var hitbox = this.gravity.hitbox;
 
-    stage.players.forEach(function(player) {
+    stage.players.some(function(player) {
         shouldIKill = true;
         if( ((player.movie.position.x >= that.movie.position.x) && direction.x == -1) ||
             ((player.movie.position.x <= that.movie.position.x) && direction.x == 1) ) {
@@ -279,7 +279,8 @@ Enemy.prototype.shouldIKill = function(stage) {
         }
 
         if(shouldIKill) {
-            return
+            // break the "some" function
+            return true;
         }
     });
     return shouldIKill;
