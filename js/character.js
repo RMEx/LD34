@@ -80,7 +80,6 @@ Character.prototype = {
         this.movie.position.x = nps.x;
         this.movie.position.y = nps.y;
         this.update_anim();
-                              
     },
 
     update_anim : function() {
@@ -110,7 +109,7 @@ Character.prototype = {
         }
         this.movie.animationSpeed = 0.3;
         this.movie.play();
-        this.movie.scale.x = 1;        
+        this.movie.scale.x = 1;
         this.gravity.forward();
     },
     backward : function () {
@@ -129,13 +128,8 @@ Character.prototype = {
         this.movie.play();
         this.gravity.jump();
     },
-    hurt: function() {
-	this.health -= 1;
-
-	if(this.health == 0) {
-	    console.log("is dead");
-	    // Do something
-	}
+    hurt: function(stage) {
+        this.health -= 1;
     },
     raycastToHitbox: function(ray, hitboxStage) {
         var collided = false
@@ -185,7 +179,7 @@ Player = function (charset, polygon, x, y, keybinding, tnt) {
 Player.prototype = Object.create(Character.prototype);
 Player.prototype.update = function(stage) {
     Character.prototype.update.call(this, stage);
-    if(Input.keys("P").isTriggered) { this.hurt(); }
+    if(Input.keys("P").isTriggered) { this.hurt(stage); }
     if (Input.keys(this.keybinding.right).isDown) { this.forward(); }
     else if (Input.keys(this.keybinding.left).isDown) { this.backward(); }
     else { this.idle(); }
@@ -198,20 +192,25 @@ Player.prototype.update = function(stage) {
     
 }
 
-Player.prototype.hurt = function() {
-    Character.prototype.hurt.call(this)
-    // Update healthBar event
+Player.prototype.hurt = function(stage) {
+    Character.prototype.hurt.call(this, stage);
+     // Update healthBar event
     var event = new CustomEvent(
-            "updateHealthBar",
-            {
+        "updateHealthBar",
+        {
             detail: {
-                target: this,
-            },
+            target: this,
+        },
             bubbles: true,
             cancelable: false
-            }
+        }
     );
     document.dispatchEvent(event);
+
+    if(this.health == 0) {
+        console.log("is dead");
+        stage.removePlayer(this);
+    }
 };
 
 Player.prototype.bangMusic = function () {
@@ -257,7 +256,6 @@ Enemy.prototype.shouldIKill = function(stage) {
     const eye = 40;
     var eyePosition = this.movie.y + eye;
     var hitbox = this.gravity.hitbox;
-
     stage.players.some(function(player) {
         shouldIKill = true;
         if( ((player.movie.position.x >= that.movie.position.x) && direction.x == -1) ||

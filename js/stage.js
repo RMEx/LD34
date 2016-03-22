@@ -85,7 +85,7 @@ Graphics.Stage.prototype = {
             x,
             y,
             keybinding,
-	    tnt
+            tnt
         );
         this.players.push(character);
         character.movie.position.x = x;
@@ -95,6 +95,16 @@ Graphics.Stage.prototype = {
         character.healthBar.graphics.position.y = hbCoords.y;
         this.raw().addChild(character.healthBar.graphics);
         return this;
+    },
+
+    removePlayer: function(character) {
+        var index = this.players.indexOf(character);
+        if( index < 0 || index > this.players.length)
+        {
+            throw new Error("in RemovePlayer function: "+ index + "is out of range");
+        }
+        this.raw().removeChild(character.movie);
+        this.players.splice(index, 1);
     },
 
     addEnemy: function(chars, x, y) {
