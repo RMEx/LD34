@@ -1,3 +1,8 @@
+const HEIGHT = 50;
+const WIDTH = 50;
+const MAX_VISIBILITY = 1000;
+const THICKNESS_RAY = 10;
+
 Character = function(charsets, polygons, x, y) {
     this.polygons = polygons;
     this.poses = charsets.length;
@@ -8,7 +13,7 @@ Character = function(charsets, polygons, x, y) {
     this.gravity = new Gravity({
         hitbox:new SAT.Box(
             new SAT.Vector(0, 0),
-            50, 50
+            WIDTH, HEIGHT
         ).toPolygon()
         
     });
@@ -74,8 +79,7 @@ Character.prototype = {
         
         this.movie.position.x = nps.x;
         this.movie.position.y = nps.y;
-            this.update_anim();
-                              
+        this.update_anim();
     },
 
     update_anim : function() {
@@ -105,7 +109,7 @@ Character.prototype = {
         }
         this.movie.animationSpeed = 0.3;
         this.movie.play();
-        this.movie.scale.x = 1;        
+        this.movie.scale.x = 1;
         this.gravity.forward();
     },
     backward : function () {
@@ -125,24 +129,19 @@ Character.prototype = {
         this.gravity.jump();
     },
     hurt: function(stage) {
-    	this.health -= 1;
-    	// Update healthBar event
-    	var event = new CustomEvent(
-        	    "updateHealthBar",
-        	    {
-        		detail: {
-        		    target: this,
-        		},
-        		bubbles: true,
-        		cancelable: false
-        	    }
-    	);
-    	document.dispatchEvent(event);
-
-    	if(this.health == 0) {
-    	    console.log("is dead");
-    	    stage.removePlayer(this);
-    	}
+        this.health -= 1;
+    },
+    raycastToHitbox: function(ray, hitboxStage) {
+        var collided = false
+        hitboxStage.forEach(function(hitbox) {
+            var response = new SAT.Response();
+            collided = SAT.testPolygonPolygon(ray.toPolygon(), hitbox, response)
+            // continue the loop is unnecessary
+            if (collided) {
+                return;
+            }
+        });
+        return collided;
     }
     
 }
@@ -179,7 +178,6 @@ Player = function (charset, polygon, x, y, keybinding, tnt) {
 
 Player.prototype = Object.create(Character.prototype);
 Player.prototype.update = function(stage) {
-
     Character.prototype.update.call(this, stage);
     if(Input.keys("P").isTriggered) { this.hurt(stage); }
     if (Input.keys(this.keybinding.right).isDown) { this.forward(); }
@@ -193,6 +191,27 @@ Player.prototype.update = function(stage) {
     };
     
 }
+
+Player.prototype.hurt = function(stage) {
+    Character.prototype.hurt.call(this, stage);
+     // Update healthBar event
+    var event = new CustomEvent(
+        "updateHealthBar",
+        {
+            detail: {
+            target: this,
+        },
+            bubbles: true,
+            cancelable: false
+        }
+    );
+    document.dispatchEvent(event);
+
+    if(this.health == 0) {
+        console.log("is dead");
+        stage.removePlayer(this);
+    }
+};
 
 Player.prototype.bangMusic = function () {
     Assets.Audio.pew[Math.floor((Math.random() * 10) + 1)].play();
@@ -215,3 +234,53 @@ Player.prototype.startJumpMusic = function () {
 Player.prototype.stopJumpMusic = function () {
     this.isJumping = false;
 };
+
+Enemy = function (charset, polygon, x, y) {
+
+    Character.call(this, charset, polygon, x, y);
+}
+ 
+Enemy.prototype = Object.create(Character.prototype);
+
+Enemy.prototype.update = function(stage) {
+    Character.prototype.update.call(this, stage);
+    this.idle();
+    if(this.shouldIKill(stage)){this.bang()}
+    else {this.shoot = false}
+}
+
+Enemy.prototype.shouldIKill = function(stage) {
+    var shouldIKill = true;
+    var that = this;
+    var direction =  new SAT.Vector(this.movie.scale.x, this.movie.scale.y);
+    const eye = 40;
+    var eyePosition = this.movie.y + eye;
+    var hitbox = this.gravity.hitbox;
+    console.log(stage.players.length)
+    stage.players.some(function(player) {
+        shouldIKill = true;
+        if( ((player.movie.position.x >= that.movie.position.x) && direction.x == -1) ||
+            ((player.movie.position.x <= that.movie.position.x) && direction.x == 1) ) {
+            shouldIKill = false;
+        }
+
+        if( eyePosition > (player.movie.position.y + HEIGHT) ||
+            eyePosition < player.movie.position.y ) {
+            shouldIKill = false;
+        }
+
+        var ray = new SAT.Box(
+            new SAT.Vector(that.movie.position.x, eyePosition),
+            Math.abs(player.movie.position.x - that.movie.position.x), THICKNESS_RAY
+        );
+        if( that.raycastToHitbox(ray, stage.hitbox)) {
+            shouldIKill = false;
+        }
+
+        if(shouldIKill) {
+            // break the "some" function
+            return true;
+        }
+    });
+    return shouldIKill;
+}

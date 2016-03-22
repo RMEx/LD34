@@ -85,7 +85,7 @@ Graphics.Stage.prototype = {
             x,
             y,
             keybinding,
-	    tnt
+            tnt
         );
         this.players.push(character);
         character.movie.position.x = x;
@@ -105,6 +105,20 @@ Graphics.Stage.prototype = {
         }
         this.raw().removeChild(character.movie);
         this.players.slice(index, 1);
+    },
+
+    addEnemy: function(chars, x, y) {
+        var character = new Enemy(
+            chars,
+            this.hitbox,
+            x,
+            y
+        );
+        this.enemies.push(character);
+        character.movie.position.x = x;
+        character.movie.position.y = y;
+        this.raw().addChild(character.movie);
+        return this;
     },
 
     addSprite: function(sprite, callback, append) {
