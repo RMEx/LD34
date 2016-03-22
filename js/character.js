@@ -256,7 +256,6 @@ Enemy.prototype.shouldIKill = function(stage) {
     const eye = 40;
     var eyePosition = this.movie.y + eye;
     var hitbox = this.gravity.hitbox;
-    console.log(stage.players.length)
     stage.players.some(function(player) {
         shouldIKill = true;
         if( ((player.movie.position.x >= that.movie.position.x) && direction.x == -1) ||

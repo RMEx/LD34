@@ -104,7 +104,7 @@ Graphics.Stage.prototype = {
             throw new Error("in RemovePlayer function: "+ index + "is out of range");
         }
         this.raw().removeChild(character.movie);
-        this.players.slice(index, 1);
+        this.players.splice(index, 1);
     },
 
     addEnemy: function(chars, x, y) {
