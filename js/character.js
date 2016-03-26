@@ -236,11 +236,19 @@ Player.prototype.stopJumpMusic = function () {
 };
 
 Enemy = function (charset, polygon, x, y) {
-
     Character.call(this, charset, polygon, x, y);
 }
- 
+
 Enemy.prototype = Object.create(Character.prototype);
+
+
+Enemy.prototype.hurt = function(stage) {
+    Character.prototype.hurt.call(this, stage);
+    if(this.health == 0) {
+        stage.removeEnemy(this);
+    }
+}
+
 
 Enemy.prototype.update = function(stage) {
     Character.prototype.update.call(this, stage);

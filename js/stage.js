@@ -121,6 +121,16 @@ Graphics.Stage.prototype = {
         return this;
     },
 
+    removeEnemy: function(character) {
+        var index = this.enemies.indexOf(character);
+        if( index < 0 || index > this.enemies.length)
+        {
+            throw new Error("in RemoveEnemy function: "+ index + "is out of range");
+        }
+        this.raw().removeChild(character.movie);
+        this.enemies.splice(index, 1);
+    },
+
     addSprite: function(sprite, callback, append) {
         this.sprites.push({sprite:sprite, update:callback});
         if(append != undefined) { append(sprite); }
