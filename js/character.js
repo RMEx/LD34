@@ -258,7 +258,7 @@ Enemy.prototype.update = function(stage) {
 }
 
 Enemy.prototype.shouldIKill = function(stage) {
-    var shouldIKill = true;
+    var shouldIKill = false;
     var that = this;
     var direction =  new SAT.Vector(this.movie.scale.x, this.movie.scale.y);
     const eye = 40;
